@@ -11,11 +11,11 @@ TEMPO_EXPIRACAO_TOKEN_MINUTOS = 30
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-def verificar_senha(senha_texto: str, senha_hash: str) -> bool:
-    return pwd_context.verify(senha_texto, senha_hash)
+def verificar_password(password_texto: str, password_hash: str) -> bool:
+    return pwd_context.verify(password_texto, password_hash)
 
-def gerar_hash_senha(senha: str) -> str:
-    return pwd_context.hash(senha)
+def gerar_hash_password(password: str) -> str:
+    return pwd_context.hash(password)
 
 def criar_token_acesso(dados: dict, tempo_expiracao: Optional[timedelta] = None) -> str:
     dados_codificar = dados.copy()
@@ -30,10 +30,10 @@ def criar_token_acesso(dados: dict, tempo_expiracao: Optional[timedelta] = None)
 def verificar_token(token: str, erro_credenciais) -> TokenData:
     try:
         payload = jwt.decode(token, CHAVE_SECRETA, algorithms=[ALGORITMO])
-        nome_usuario: str = payload.get("sub")
-        if nome_usuario is None:
+        username: str = payload.get("sub")
+        if username is None:
             raise erro_credenciais
-        dados_token = TokenData(nome_usuario=nome_usuario)
+        dados_token = TokenData(username=username)
         return dados_token
     except JWTError:
         raise erro_credenciais

@@ -6,9 +6,9 @@ class Usuario(Base):
     __tablename__ = "usuarios"
 
     id = Column(Integer, primary_key=True, index=True)
-    nome_usuario = Column(String, unique=True, index=True)
+    username = Column(String, unique=True, index=True)
     email = Column(String, unique=True, index=True)
-    senha_hash = Column(String)
+    password_hash = Column(String)
     
     personagens = relationship("Personagem", back_populates="dono")
 
